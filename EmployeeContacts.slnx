@@ -1,3 +1,19 @@
 <Solution>
-  <Project Path="EmployeeContacts/EmployeeContacts.csproj" />
+  <Folder Name="/docs/">
+    <File Path="docs/1. requirements.md" />
+    <File Path="docs/2. employee-contacts-plan.md" />
+    <File Path="docs/3. clean-architecture.md" />
+    <File Path="docs/4. tdd-and-delivery-guide.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/EmployeeContacts.Api/EmployeeContacts.Api.csproj" />
+    <Project Path="src/EmployeeContacts.Application/EmployeeContacts.Application.csproj" />
+    <Project Path="src/EmployeeContacts.Domain/EmployeeContacts.Domain.csproj" />
+    <Project Path="src/EmployeeContacts.Infrastructure/EmployeeContacts.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EmployeeContacts.Api.IntegrationTests/EmployeeContacts.Api.IntegrationTests.csproj" />
+    <Project Path="tests/EmployeeContacts.Application.Tests/EmployeeContacts.Application.Tests.csproj" />
+    <Project Path="tests/EmployeeContacts.Domain.Tests/EmployeeContacts.Domain.Tests.csproj" />
+  </Folder>
 </Solution>
