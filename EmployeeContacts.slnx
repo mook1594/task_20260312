@@ -5,6 +5,10 @@
     <File Path="docs/3. clean-architecture.md" />
     <File Path="docs/4. tdd-and-delivery-guide.md" />
   </Folder>
+  <Folder Name="/docs/implementation-plan/">
+    <File Path="docs/implementation-plan/domain-implementation-checklist.md" />
+    <File Path="docs/implementation-plan/domain-implementation-plan.md" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/EmployeeContacts.Api/EmployeeContacts.Api.csproj" />
     <Project Path="src/EmployeeContacts.Application/EmployeeContacts.Application.csproj" />
