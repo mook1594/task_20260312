@@ -93,11 +93,12 @@ using (IServiceScope scope = app.Services.CreateScope())
 app.UseExceptionHandler();
 app.UseHttpLogging();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// 디버그 모드가 아닐때를 대비한
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
@@ -105,7 +106,6 @@ app.UseAuthorization();
 string programVersion = builder.Configuration["ProgramVersion"] ?? "unknown";
 app.MapGet("/", () => Results.Ok(new { version = programVersion, status = "ok" }))
     .WithName("Health")
-    .WithOpenApi()
     .Produces<object>(StatusCodes.Status200OK);
 
 app.MapControllers();
