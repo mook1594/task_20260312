@@ -1,3 +1,4 @@
+using EmployeeContacts.Api.Models;
 using EmployeeContacts.Api.ProblemDetails;
 using EmployeeContacts.Api.Services;
 using EmployeeContacts.Application.Common.Models;
@@ -38,9 +39,9 @@ public sealed class EmployeeController : ControllerBase
     /// <returns>이름과 식별자 오름차순으로 정렬된 직원 페이지 결과를 반환한다.</returns>
     [HttpGet]
     [Produces("application/json")]
-    [ProducesResponseType<PagedResult<EmployeeDto>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<PagedResponse<EmployeeDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PagedResult<EmployeeDto>>> GetEmployees(
+    public async Task<ActionResult<PagedResponse<EmployeeDto>>> GetEmployees(
         [FromQuery] [Range(1, int.MaxValue, ErrorMessage = "page는 1 이상이어야 합니다.")] int page = 1,
         [FromQuery] [Range(1, 100, ErrorMessage = "pageSize는 1부터 100 사이여야 합니다.")] int pageSize = 20,
         CancellationToken cancellationToken = default)
@@ -49,7 +50,24 @@ public sealed class EmployeeController : ControllerBase
             .Send(new GetEmployeesQuery(page, pageSize), cancellationToken)
             .ConfigureAwait(false);
 
-        return Ok(result);
+        string? nextUrl = result.Page < result.TotalPages
+            ? Url.Action(nameof(GetEmployees), new { page = result.Page + 1, pageSize })
+            : null;
+        string? prevUrl = result.Page > 1
+            ? Url.Action(nameof(GetEmployees), new { page = result.Page - 1, pageSize })
+            : null;
+
+        var response = new PagedResponse<EmployeeDto>
+        {
+            Items = result.Items,
+            Page = result.Page,
+            PageSize = result.PageSize,
+            TotalCount = result.TotalCount,
+            TotalPages = result.TotalPages,
+            Links = new PagedLinks { Next = nextUrl, Prev = prevUrl }
+        };
+
+        return Ok(response);
     }
 
     /// <summary>
@@ -114,14 +132,6 @@ public sealed class EmployeeController : ControllerBase
         BulkCreateEmployeesResult result = await sender
             .Send(new BulkCreateEmployeesCommand(records), cancellationToken)
             .ConfigureAwait(false);
-
-        if (result.Created == 0)
-        {
-            throw new HttpProblemException(
-                StatusCodes.Status400BadRequest,
-                "Bad Request",
-                "The request did not create any employees.");
-        }
 
         return StatusCode(StatusCodes.Status201Created, result);
     }

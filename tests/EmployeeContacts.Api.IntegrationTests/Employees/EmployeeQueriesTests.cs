@@ -1,4 +1,5 @@
 using EmployeeContacts.Api.IntegrationTests.TestCommon;
+using EmployeeContacts.Api.Models;
 
 namespace EmployeeContacts.Api.IntegrationTests.Employees;
 
@@ -14,8 +15,8 @@ public sealed class EmployeeQueriesTests
             .ConfigureAwait(false);
         using HttpClient client = factory.CreateApiClient();
 
-        PagedResult<EmployeeDto>? response = await client
-            .GetFromJsonAsync<PagedResult<EmployeeDto>>("/api/employee")
+        PagedResponse<EmployeeDto>? response = await client
+            .GetFromJsonAsync<PagedResponse<EmployeeDto>>("/api/employee")
             .ConfigureAwait(false);
 
         Assert.NotNull(response);
@@ -24,6 +25,9 @@ public sealed class EmployeeQueriesTests
         Assert.Equal(2, response.TotalCount);
         Assert.Equal(1, response.TotalPages);
         Assert.Equal(["김철수", "박영희"], response.Items.Select(item => item.Name).ToArray());
+        Assert.NotNull(response.Links);
+        Assert.Null(response.Links.Next);
+        Assert.Null(response.Links.Prev);
     }
 
     [Fact(DisplayName = "잘못된 page, pageSize는 ValidationProblemDetails를 반환한다.")]
@@ -55,8 +59,8 @@ public sealed class EmployeeQueriesTests
             .ConfigureAwait(false);
         using HttpClient client = factory.CreateApiClient();
 
-        PagedResult<EmployeeDto>? response = await client
-            .GetFromJsonAsync<PagedResult<EmployeeDto>>("/api/employee?page=1&pageSize=10")
+        PagedResponse<EmployeeDto>? response = await client
+            .GetFromJsonAsync<PagedResponse<EmployeeDto>>("/api/employee?page=1&pageSize=10")
             .ConfigureAwait(false);
 
         Assert.NotNull(response);
@@ -114,6 +118,57 @@ public sealed class EmployeeQueriesTests
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         Assert.NotNull(problemDetails);
         Assert.Contains("name", problemDetails.Errors.Keys);
+    }
+
+    [Fact(DisplayName = "페이지네이션 링크는 다음/이전 페이지 URL을 포함한다.")]
+    public async Task GetEmployees_ShouldIncludePaginationLinks()
+    {
+        using EmployeeContactsApiFactory factory = new();
+        await factory.SeedEmployeesAsync(
+                CreateEmployee("직원1", "emp1@example.com", "01000000001", new Guid("00000000-0000-0000-0000-000000000001")),
+                CreateEmployee("직원2", "emp2@example.com", "01000000002", new Guid("00000000-0000-0000-0000-000000000002")),
+                CreateEmployee("직원3", "emp3@example.com", "01000000003", new Guid("00000000-0000-0000-0000-000000000003")),
+                CreateEmployee("직원4", "emp4@example.com", "01000000004", new Guid("00000000-0000-0000-0000-000000000004")),
+                CreateEmployee("직원5", "emp5@example.com", "01000000005", new Guid("00000000-0000-0000-0000-000000000005")),
+                CreateEmployee("직원6", "emp6@example.com", "01000000006", new Guid("00000000-0000-0000-0000-000000000006")))
+            .ConfigureAwait(false);
+        using HttpClient client = factory.CreateApiClient();
+
+        PagedResponse<EmployeeDto>? firstPage = await client
+            .GetFromJsonAsync<PagedResponse<EmployeeDto>>("/api/employee?page=1&pageSize=2")
+            .ConfigureAwait(false);
+
+        Assert.NotNull(firstPage);
+        Assert.Equal(1, firstPage.Page);
+        Assert.Equal(2, firstPage.Items.Count);
+        Assert.NotNull(firstPage.Links);
+        Assert.Null(firstPage.Links.Prev);
+        Assert.NotNull(firstPage.Links.Next);
+        Assert.Contains("page=2", firstPage.Links.Next);
+        Assert.Contains("pageSize=2", firstPage.Links.Next);
+
+        PagedResponse<EmployeeDto>? secondPage = await client
+            .GetFromJsonAsync<PagedResponse<EmployeeDto>>("/api/employee?page=2&pageSize=2")
+            .ConfigureAwait(false);
+
+        Assert.NotNull(secondPage);
+        Assert.Equal(2, secondPage.Page);
+        Assert.NotNull(secondPage.Links);
+        Assert.NotNull(secondPage.Links.Prev);
+        Assert.NotNull(secondPage.Links.Next);
+        Assert.Contains("page=1", secondPage.Links.Prev);
+        Assert.Contains("page=3", secondPage.Links.Next);
+
+        PagedResponse<EmployeeDto>? lastPage = await client
+            .GetFromJsonAsync<PagedResponse<EmployeeDto>>("/api/employee?page=3&pageSize=2")
+            .ConfigureAwait(false);
+
+        Assert.NotNull(lastPage);
+        Assert.Equal(3, lastPage.Page);
+        Assert.NotNull(lastPage.Links);
+        Assert.NotNull(lastPage.Links.Prev);
+        Assert.Null(lastPage.Links.Next);
+        Assert.Contains("page=2", lastPage.Links.Prev);
     }
 
     private static EmployeeEntity CreateEmployee(
