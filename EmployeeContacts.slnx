@@ -10,6 +10,7 @@
     <File Path="docs/implementation-plan/application-implementation-plan.md" />
     <File Path="docs/implementation-plan/domain-implementation-checklist.md" />
     <File Path="docs/implementation-plan/domain-implementation-plan.md" />
+    <File Path="docs/implementation-plan/infrastructure-implementation-plan.md" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/EmployeeContacts.Api/EmployeeContacts.Api.csproj" />
@@ -21,5 +22,6 @@
     <Project Path="tests/EmployeeContacts.Api.IntegrationTests/EmployeeContacts.Api.IntegrationTests.csproj" />
     <Project Path="tests/EmployeeContacts.Application.Tests/EmployeeContacts.Application.Tests.csproj" />
     <Project Path="tests/EmployeeContacts.Domain.Tests/EmployeeContacts.Domain.Tests.csproj" />
+    <Project Path="tests/EmployeeContacts.Infrastructure.Tests/EmployeeContacts.Infrastructure.Tests.csproj" />
   </Folder>
 </Solution>

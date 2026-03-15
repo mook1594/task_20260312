@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -12,6 +12,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
     <PackageReference Include="xunit.v3" Version="3.2.2" />
@@ -20,6 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EmployeeContacts.Application\EmployeeContacts.Application.csproj" />
+    <ProjectReference Include="..\..\src\EmployeeContacts.Domain\EmployeeContacts.Domain.csproj" />
+    <ProjectReference Include="..\..\src\EmployeeContacts.Infrastructure\EmployeeContacts.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
