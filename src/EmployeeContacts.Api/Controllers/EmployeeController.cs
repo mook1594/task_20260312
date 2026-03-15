@@ -37,6 +37,8 @@ public sealed class EmployeeController : ControllerBase
     /// <param name="pageSize">페이지 크기다. 기본값은 20이고 최대값은 100이다.</param>
     /// <param name="cancellationToken">요청 취소 토큰이다.</param>
     /// <returns>이름과 식별자 오름차순으로 정렬된 직원 페이지 결과를 반환한다.</returns>
+    /// <response code="200">직원 목록 조회 성공</response>
+    /// <response code="400">page나 pageSize가 유효하지 않음</response>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<PagedResponse<EmployeeDto>>(StatusCodes.Status200OK)]
@@ -76,6 +78,8 @@ public sealed class EmployeeController : ControllerBase
     /// <param name="name">trim 후 exact match로 조회할 직원 이름이다.</param>
     /// <param name="cancellationToken">요청 취소 토큰이다.</param>
     /// <returns>조건에 일치하는 직원 목록을 반환한다. 결과가 없으면 빈 배열을 반환한다.</returns>
+    /// <response code="200">직원 조회 성공. 조건에 맞는 직원이 없으면 빈 배열 반환</response>
+    /// <response code="400">name이 유효하지 않음</response>
     [HttpGet("{name}")]
     [Produces("application/json")]
     [ProducesResponseType<IReadOnlyList<EmployeeDto>>(StatusCodes.Status200OK)]
@@ -118,6 +122,10 @@ public sealed class EmployeeController : ControllerBase
     /// </remarks>
     /// <param name="cancellationToken">요청 취소 토큰이다.</param>
     /// <returns>부분 성공을 포함한 일괄 등록 처리 결과를 반환한다.</returns>
+    /// <response code="201">직원 일괄 등록 완료. created > 0이면 부분 성공, failed > 0이면 일부 행 실패</response>
+    /// <response code="400">요청 본문 형식이 유효하지 않거나 필드 값이 검증 실패</response>
+    /// <response code="415">Content-Type 헤더가 지원되지 않음</response>
+    /// <response code="500">서버 오류 발생</response>
     [HttpPost]
     [Produces("application/json")]
     [ProducesResponseType<BulkCreateEmployeesResult>(StatusCodes.Status201Created)]

@@ -77,6 +77,7 @@ builder.Services.AddSwaggerGen(options =>
         options.IncludeXmlComments(applicationXmlPath);
     }
 
+    options.SchemaFilter<ResponseExampleSchemaFilter>();
     options.OperationFilter<EmployeeImportOperationFilter>();
 });
 
