@@ -2,6 +2,14 @@
 
 직원 긴급 연락망 시스템. 직원 정보 조회 및 CSV/JSON 기반 일괄 등록 API.
 
+## 빠른 실행
+```
+dotnet run --project src/EmployeeContacts.Api
+```
+
+### url: http://localhost:5079/swagger
+
+
 ## 기술 스택
 
 - **Runtime**: .NET 10
@@ -34,7 +42,7 @@ dotnet test EmployeeContacts.slnx
 dotnet run --project src/EmployeeContacts.Api
 ```
 
-API는 `https://localhost:7093`에서 실행되며, Swagger UI는 `/swagger` 경로에서 확인 가능합니다.
+API는 `http://localhost:5079`에서 실행되며, Swagger UI는 `http://localhost:5079/swagger` 경로에서 확인 가능합니다.
 
 ## 아키텍처
 
