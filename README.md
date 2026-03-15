@@ -34,14 +34,7 @@ dotnet test EmployeeContacts.slnx
 dotnet run --project src/EmployeeContacts.Api
 ```
 
-API는 `https://localhost:7000`에서 실행되며, Swagger UI는 `/swagger` 경로에서 확인 가능합니다.
-
-## 데이터 규칙
-
-- **이메일**: trim 후 소문자 정규화, 시스템 전체 유일
-- **전화번호**: 하이픈 입력 허용, 숫자만 저장, `010` 시작 11자리만 허용, 시스템 전체 유일
-- **이름**: 중복 허용
-- **날짜**: `yyyy-MM-dd` 형식만 허용
+API는 `https://localhost:7093`에서 실행되며, Swagger UI는 `/swagger` 경로에서 확인 가능합니다.
 
 ## 아키텍처
 
@@ -55,7 +48,7 @@ Infrastructure + Api (영속성, HTTP)
 
 - **Domain**: Employee Aggregate, 도메인 값 객체, 예외 정의
 - **Application**: Command/Query/Handler, Validator, DTO
-- **Infrastructure**: EF Core, SQLite, CSV/JSON Parser
+- **Infrastructure**: EF Core, SQLite(lcoal), CSV/JSON Parser
 - **Api**: ASP.NET Core Controller, ProblemDetails 응답 매핑
 
 ## 개발
@@ -69,3 +62,7 @@ dotnet test EmployeeContacts.slnx --collect:"XPlat Code Coverage"
 ```
 
 더 자세한 내용은 `docs/` 폴더를 참고하세요.
+
+## Demo
+
+self - hosting http://employee-api.mooo.com/
