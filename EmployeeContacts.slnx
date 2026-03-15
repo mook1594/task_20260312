@@ -10,6 +10,7 @@
     <File Path="docs/implementation-plan/application-implementation-plan.md" />
     <File Path="docs/implementation-plan/domain-implementation-checklist.md" />
     <File Path="docs/implementation-plan/domain-implementation-plan.md" />
+    <File Path="docs/implementation-plan/infrastructure-implementation-plan.md" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/EmployeeContacts.Api/EmployeeContacts.Api.csproj" />
