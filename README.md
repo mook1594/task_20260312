@@ -7,7 +7,8 @@
 dotnet run --project src/EmployeeContacts.Api
 ```
 
-### url: http://localhost:5079/swagger
+- url: http://localhost:5079/swagger
+- self-hosting: https://employee-api.mooo.com/
 
 
 ## 기술 스택
