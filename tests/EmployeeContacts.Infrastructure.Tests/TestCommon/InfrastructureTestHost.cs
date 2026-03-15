@@ -66,7 +66,7 @@ internal sealed class InfrastructureTestHost : IAsyncDisposable
 
     public async Task MigrateAsync()
     {
-        await using DbContext dbContext = GetDbContext();
+        DbContext dbContext = GetDbContext();
         await dbContext.Database.MigrateAsync().ConfigureAwait(false);
     }
 
