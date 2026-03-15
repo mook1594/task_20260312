@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"D:\\\\Source\\\\GitHub\\\\task_20260312\" && dotnet build --no-restore 2>&1 | tail -5)"
+    ]
+  }
+}

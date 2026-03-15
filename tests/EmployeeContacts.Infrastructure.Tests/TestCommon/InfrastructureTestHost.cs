@@ -64,10 +64,17 @@ internal sealed class InfrastructureTestHost : IAsyncDisposable
                 $"'{dbContextType.FullName}' must be registered as a DbContext service.");
     }
 
-    public async Task MigrateAsync()
+    public async Task MigrateAsync(bool clearEmployees = false)
     {
         DbContext dbContext = GetDbContext();
         await dbContext.Database.MigrateAsync().ConfigureAwait(false);
+
+        if (clearEmployees)
+        {
+            await dbContext.Set<EmployeeContacts.Infrastructure.Persistence.Entities.EmployeeEntity>()
+                .ExecuteDeleteAsync()
+                .ConfigureAwait(false);
+        }
     }
 
     public static void ApplyInfrastructureRegistration(IServiceCollection services, IConfiguration configuration)

@@ -6,7 +6,7 @@ public class EmployeeRepositoryTests
     public async Task GetPagedAsync_ShouldReturnEmployees_OrderedByNameThenId()
     {
         await using InfrastructureTestHost host = InfrastructureTestHost.Create();
-        await host.MigrateAsync();
+        await host.MigrateAsync(clearEmployees: true);
 
         IEmployeeRepository repository = host.GetEmployeeRepository();
         IUnitOfWork unitOfWork = host.GetUnitOfWork();
@@ -43,7 +43,7 @@ public class EmployeeRepositoryTests
     public async Task GetByNameAsync_ShouldReturnEmployees_WithExactNameMatch()
     {
         await using InfrastructureTestHost host = InfrastructureTestHost.Create();
-        await host.MigrateAsync();
+        await host.MigrateAsync(clearEmployees: true);
 
         IEmployeeRepository repository = host.GetEmployeeRepository();
         IUnitOfWork unitOfWork = host.GetUnitOfWork();
@@ -66,7 +66,7 @@ public class EmployeeRepositoryTests
     public async Task GetExistingEmailsAsync_ShouldReturnMatchingEmailsOnly()
     {
         await using InfrastructureTestHost host = InfrastructureTestHost.Create();
-        await host.MigrateAsync();
+        await host.MigrateAsync(clearEmployees: true);
 
         IEmployeeRepository repository = host.GetEmployeeRepository();
         IUnitOfWork unitOfWork = host.GetUnitOfWork();
@@ -90,7 +90,7 @@ public class EmployeeRepositoryTests
     public async Task GetExistingPhoneNumbersAsync_ShouldReturnMatchingPhoneNumbersOnly()
     {
         await using InfrastructureTestHost host = InfrastructureTestHost.Create();
-        await host.MigrateAsync();
+        await host.MigrateAsync(clearEmployees: true);
 
         IEmployeeRepository repository = host.GetEmployeeRepository();
         IUnitOfWork unitOfWork = host.GetUnitOfWork();
@@ -114,7 +114,7 @@ public class EmployeeRepositoryTests
     public async Task GetExistingEmailsAsync_ShouldReturnEmptySet_WhenInputIsEmpty()
     {
         await using InfrastructureTestHost host = InfrastructureTestHost.Create();
-        await host.MigrateAsync();
+        await host.MigrateAsync(clearEmployees: true);
 
         IEmployeeRepository repository = host.GetEmployeeRepository();
 
@@ -127,7 +127,7 @@ public class EmployeeRepositoryTests
     public async Task GetExistingPhoneNumbersAsync_ShouldReturnEmptySet_WhenInputIsEmpty()
     {
         await using InfrastructureTestHost host = InfrastructureTestHost.Create();
-        await host.MigrateAsync();
+        await host.MigrateAsync(clearEmployees: true);
 
         IEmployeeRepository repository = host.GetEmployeeRepository();
 
@@ -140,7 +140,7 @@ public class EmployeeRepositoryTests
     public async Task SaveChangesAsync_ShouldPersistEmployees_AddedByRepository()
     {
         await using InfrastructureTestHost host = InfrastructureTestHost.Create();
-        await host.MigrateAsync();
+        await host.MigrateAsync(clearEmployees: true);
 
         IEmployeeRepository repository = host.GetEmployeeRepository();
         IUnitOfWork unitOfWork = host.GetUnitOfWork();

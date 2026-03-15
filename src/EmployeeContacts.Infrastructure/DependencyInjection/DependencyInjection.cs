@@ -36,7 +36,8 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlite(
                 connectionStringBuilder.ToString(),
-                sqlite => sqlite.MigrationsAssembly(typeof(DependencyInjection).Assembly.GetName().Name)));
+                sqlite => sqlite.MigrationsAssembly(typeof(DependencyInjection).Assembly.GetName().Name))
+            .ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
 
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IUnitOfWork, EfUnitOfWork>();
