@@ -1,0 +1,13 @@
+global using System.Net;
+global using System.Net.Http.Json;
+global using System.Text;
+global using EmployeeContacts.Application.Common.Models;
+global using EmployeeContacts.Application.Employees.Commands.BulkCreateEmployees;
+global using EmployeeContacts.Application.Employees.Dtos;
+global using EmployeeContacts.Infrastructure.Persistence;
+global using EmployeeContacts.Infrastructure.Persistence.Entities;
+global using MvcProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.Testing;
+global using Microsoft.EntityFrameworkCore;
+global using Xunit;

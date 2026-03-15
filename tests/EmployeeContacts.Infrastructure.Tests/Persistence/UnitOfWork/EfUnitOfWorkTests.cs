@@ -6,7 +6,7 @@ public class EfUnitOfWorkTests
     public async Task SaveChangesAsync_ShouldCommitPendingRepositoryChanges()
     {
         await using InfrastructureTestHost host = InfrastructureTestHost.Create();
-        await host.MigrateAsync();
+        await host.MigrateAsync(clearEmployees: true);
 
         IEmployeeRepository repository = host.GetEmployeeRepository();
         IUnitOfWork unitOfWork = host.GetUnitOfWork();
@@ -28,7 +28,7 @@ public class EfUnitOfWorkTests
     public async Task SaveChangesAsync_ShouldThrow_WhenEmailUniqueIndexIsViolated()
     {
         await using InfrastructureTestHost host = InfrastructureTestHost.Create();
-        await host.MigrateAsync();
+        await host.MigrateAsync(clearEmployees: true);
 
         IEmployeeRepository repository = host.GetEmployeeRepository();
         IUnitOfWork unitOfWork = host.GetUnitOfWork();
@@ -51,7 +51,7 @@ public class EfUnitOfWorkTests
     public async Task SaveChangesAsync_ShouldThrow_WhenPhoneNumberUniqueIndexIsViolated()
     {
         await using InfrastructureTestHost host = InfrastructureTestHost.Create();
-        await host.MigrateAsync();
+        await host.MigrateAsync(clearEmployees: true);
 
         IEmployeeRepository repository = host.GetEmployeeRepository();
         IUnitOfWork unitOfWork = host.GetUnitOfWork();

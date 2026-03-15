@@ -15,6 +15,21 @@ public class DatabaseMigrationTests
         Assert.Contains("Employees", tables);
     }
 
+    [Fact(DisplayName = "마이그레이션 적용 시 기본 직원 데이터가 함께 입력된다.")]
+    public async Task DatabaseMigration_ShouldInsertDefaultEmployees()
+    {
+        await using InfrastructureTestHost host = InfrastructureTestHost.Create();
+
+        await host.MigrateAsync();
+
+        await using DbContext dbContext = host.GetDbContext();
+        string[] emails = await QuerySingleColumnAsync(dbContext, "SELECT Email FROM Employees ORDER BY Email;");
+
+        Assert.Equal(
+            ["charles@clovf.com", "clo@clovf.com", "connect@clovf.com", "kildong.hong@clovf.com", "matilda@clovf.com", "md@clovf.com"],
+            emails);
+    }
+
     [Fact(DisplayName = "Email, PhoneNumber 유니크 인덱스가 생성된다.")]
     public async Task DatabaseSchema_ShouldCreateUniqueIndexes_ForEmailAndPhoneNumber()
     {
